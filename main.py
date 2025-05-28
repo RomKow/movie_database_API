@@ -1,21 +1,53 @@
 ## File: main.py
 
 """
-Entry point for the Movie Application.
+Entry point for the Movie Application with dynamic storage selection.
 """
+import argparse
+import sys
 from storage_json import StorageJson
+from storage_csv import StorageCsv
 from movie_app import MovieApp
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Movie App: Choose storage type and file path."
+    )
+    parser.add_argument(
+        "--storage",
+        choices=["json", "csv"],
+        default="json",
+        help="Storage backend to use (json or csv)."
+    )
+    parser.add_argument(
+        "--file",
+        default=None,
+        help="Path to the storage file. If omitted, uses default based on storage type."
+    )
+    return parser.parse_args()
 
 
 def main():
     """
-    Initialize storage and application, then run the CLI loop.
+    Initialize storage and application based on CLI args, then run.
     """
-    # Use JSON file as our storage backend
-    storage = StorageJson('movies.json')
-    # Create the application with the chosen storage
+    args = parse_args()
+
+    # Determine default file names if not provided
+    if args.file:
+        file_path = args.file
+    else:
+        file_path = "movies.json" if args.storage == "json" else "movies.csv"
+
+    # Instantiate the selected storage backend
+    if args.storage == "json":
+        storage = StorageJson(file_path)
+    else:
+        storage = StorageCsv(file_path)
+
+    # Create and run the application
     app = MovieApp(storage)
-    # Start the interactive loop
     app.run()
 
 

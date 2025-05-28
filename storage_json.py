@@ -13,16 +13,16 @@ class StorageJson(IStorage):
         Initialize storage with the given JSON file path.
         :param file_path: Path to JSON file
         """
-        self.file_path = file_path
+        self._file_path = file_path
 
     def list_movies(self):
         """
         Load and return all movies from JSON storage.
         :return: dict of movies
         """
-        if not os.path.exists(self.file_path):
+        if not os.path.exists(self._file_path):
             return {}
-        with open(self.file_path, 'r', encoding='utf-8') as f:
+        with open(self._file_path, 'r', encoding='utf-8') as f:
             return json.load(f)
 
     def add_movie(self, title, year, rating, poster):
@@ -67,5 +67,5 @@ class StorageJson(IStorage):
         Save the given movies dictionary to the JSON file.
         :param movies: dict of movies
         """
-        with open(self.file_path, 'w', encoding='utf-8') as f:
+        with open(self._file_path, 'w', encoding='utf-8') as f:
             json.dump(movies, f, indent=2)
