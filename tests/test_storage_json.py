@@ -1,10 +1,8 @@
 # test_storage_json.py
 
-import os
-import tempfile
 import pytest
 
-from storage_json import StorageJson
+from storage.storage_json import StorageJson
 
 
 @pytest.fixture

@@ -1,11 +1,14 @@
 # omdb_client.py
 
 import os
+from pathlib import Path
+
 import requests
 from dotenv import load_dotenv
 
 # Load environment variables from .env
-load_dotenv()
+env_path = Path(__file__).parent / 'config' / '.env'
+load_dotenv(dotenv_path=env_path)
 
 API_KEY = os.getenv('OMDB_API_KEY')
 OMDB_URL = 'http://www.omdbapi.com/'

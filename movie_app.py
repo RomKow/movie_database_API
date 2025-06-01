@@ -1,7 +1,9 @@
 import os
-import statistics
 import random
+import statistics
+
 from colorama import init, Fore, Style
+
 import omdb_client
 import website_generator
 

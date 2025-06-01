@@ -1,8 +1,9 @@
 # test_movie_app.py
 
 import pytest
-from storage_json import StorageJson
+
 from movie_app import MovieApp
+from storage.storage_json import StorageJson
 
 
 @pytest.fixture

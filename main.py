@@ -4,10 +4,10 @@
 Entry point for the Movie Application with dynamic storage selection.
 """
 import argparse
-import sys
-from storage_json import StorageJson
-from storage_csv import StorageCsv
+
 from movie_app import MovieApp
+from storage.storage_csv import StorageCsv
+from storage.storage_json import StorageJson
 
 
 def parse_args():
@@ -38,7 +38,7 @@ def main():
     if args.file:
         file_path = args.file
     else:
-        file_path = "movies.json" if args.storage == "json" else "movies.csv"
+        file_path = "data/movies.json" if args.storage == "json" else "data/movies.csv"
 
     # Instantiate the selected storage backend
     if args.storage == "json":

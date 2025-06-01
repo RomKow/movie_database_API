@@ -1,0 +1,17 @@
+{
+  "Interstellar": {
+    "year": 2014,
+    "rating": 8.7,
+    "poster": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_SX300.jpg"
+  },
+  "Contact": {
+    "year": 1997,
+    "rating": 7.5,
+    "poster": "https://m.media-amazon.com/images/M/MV5BM2JiYmE1Y2UtNDQ3YS00YTZhLTk5MzAtYzEzMzIyNTM4OTRlXkEyXkFqcGc@._V1_SX300.jpg"
+  },
+  "Moonfall": {
+    "year": 2022,
+    "rating": 5.2,
+    "poster": "https://m.media-amazon.com/images/M/MV5BOWY0YzViYzgtMzM5YS00YzI1LTk5MTQtZjdiZjUyZjQ5ZGMwXkEyXkFqcGc@._V1_SX300.jpg"
+  }
+}
