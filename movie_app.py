@@ -1,6 +1,9 @@
+import os
 import statistics
 import random
 from colorama import init, Fore, Style
+import omdb_client
+import website_generator
 
 
 class MovieApp:
@@ -31,6 +34,7 @@ class MovieApp:
             "6. Random movie",
             "7. Search movie",
             "8. Movies sorted by rating",
+            "9. Generate website",
         ]
         for opt in options:
             print(Fore.CYAN + opt + Style.RESET_ALL)
@@ -45,15 +49,31 @@ class MovieApp:
             print(f"{title} ({info['year']}): {info['rating']}")
 
     def _command_add_movie(self):
-        """Add a new movie."""
-        title = input("Enter movie title: ").strip()
-        year = int(input("Enter year of release: ").strip())
-        rating = float(input("Enter rating (1-10): ").strip())
-        poster = input("Enter poster URL/path: ").strip()
+        """Add a new movie using OMDb API."""
+        title_input = input("Enter movie title: ").strip()
+        try:
+            data = omdb_client.get_movie_data(title_input)
+        except omdb_client.MovieNotFoundError:
+            print(Fore.RED + f"Error: Movie '{title_input}' not found in OMDb." + Style.RESET_ALL)
+            return
+        except omdb_client.OmdbAPIError as exc:
+            print(Fore.RED + f"Error: OMDb API error: {exc}" + Style.RESET_ALL)
+            return
+
+        # Extract and normalize data
+        title = data.get('Title')
+        year = int(data.get('Year', 0))
+        try:
+            rating = float(data.get('imdbRating', 0.0))
+        except (TypeError, ValueError):
+            rating = 0.0
+        poster = data.get('Poster', '')
+
         movies = self._storage.list_movies()
         if title in movies:
             print(Fore.RED + f"Error: Movie '{title}' already exists." + Style.RESET_ALL)
             return
+
         self._storage.add_movie(title, year, rating, poster)
         print(f"Added '{title}' ({year}) with rating {rating}.")
 
@@ -125,9 +145,16 @@ class MovieApp:
         for t, info in sorted_list:
             print(f"{t} ({info['year']}): {info['rating']}")
 
-    def _generate_website(self):
-        """Placeholder for static website generation logic."""
-        pass
+    def _command_generate_website(self):
+        """Generate a static HTML page for the movie library."""
+        template = os.path.join(os.path.dirname(__file__), '_static', 'index_template.html')
+        output = os.path.join(os.path.dirname(__file__), '_static', 'index.html')
+        title = 'My Movie Library'
+        try:
+            website_generator.generate_website(self._storage, template, output, title)
+            print("Website was generated successfully.")
+        except Exception as exc:
+            print(Fore.RED + f"Failed to generate website: {exc}" + Style.RESET_ALL)
 
     def run(self):
         """Main loop: display menu, read input, dispatch commands."""
@@ -141,14 +168,15 @@ class MovieApp:
             '6': self._command_pick_random_movie,
             '7': self._command_search_movies,
             '8': self._command_sorted_by_rating,
+            '9': self._command_generate_website,
         }
 
         while True:
             self._print_menu()
-            choice = input(Fore.GREEN + "Enter choice (0-8): " + Style.RESET_ALL).strip()
+            choice = input(Fore.GREEN + "Enter choice (0-9): " + Style.RESET_ALL).strip()
             action = commands.get(choice)
             if not action:
-                print(Fore.RED + "Invalid choice, please enter a number between 0 and 8." + Style.RESET_ALL)
+                print(Fore.RED + "Invalid choice, please enter a number between 0 and 9." + Style.RESET_ALL)
                 continue
             if choice == '0':
                 action()

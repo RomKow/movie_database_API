@@ -1,7 +1,12 @@
 {
-  "Roman": {
-    "year": 2025,
-    "rating": 10.0,
-    "poster": ""
+  "Titanic": {
+    "year": 1997,
+    "rating": 6.0,
+    "poster": "https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_SX300.jpg"
+  },
+  "Interstellar": {
+    "year": 2014,
+    "rating": 8.7,
+    "poster": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_SX300.jpg"
   }
 }
